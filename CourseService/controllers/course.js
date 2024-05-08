@@ -1,40 +1,27 @@
-import Course from "../models/Course.js";
+import courseService from "../services/course-service.js";
 
 // Create a new course
 export const createVideo = async (req, res, next) => {
-  const { courseid, coursename, description, sections, references, price, imgUrl, videoUrl } = req.body;
-
-  if (!courseid || !coursename || !description || !sections || !references || !price || !imgUrl || !videoUrl) {
-    res.status(400);
-    return next(new Error("courseid, coursename, description, sections, references, price, imgUrl & videoUrl fields are required"));
-  }
-
+  const createVedio = req.body;
   try {
-    const video = await Course.create({
-      courseid,
-      coursename,
-      description,
-      sections,
-      references,
-      price,
-      imgUrl,
-      videoUrl,
-    });
+    const createdData = courseService.createCourse(createVedio);
 
     res.status(201).json({
       success: true,
-      video,
+      message: "Course created successfully",
+      data: createdData,
     });
   } catch (error) {
     console.log(error);
     res.status(500);
     next(error);
   }
-}
+};
+
 // Get all courses
 export const getAllCourses = async (req, res, next) => {
   try {
-    const videos = await Course.find();
+    const videos = await courseService.getAllCourses();
 
     if (videos.length === 0) {
       res.status(404);
@@ -51,14 +38,14 @@ export const getAllCourses = async (req, res, next) => {
     res.status(500);
     next(error);
   }
-}
+};
 
 // Get one course by ID
 export const getCourseById = async (req, res, next) => {
   try {
     const courseId = req.params.id; // Using courseid instead of _id
 
-    const video = await Course.findOne({ courseid: courseId });
+    const video = await courseService.getCourseById(courseId);
 
     if (!video) {
       res.status(404);
@@ -80,37 +67,17 @@ export const getCourseById = async (req, res, next) => {
 export const updateCourseById = async (req, res, next) => {
   try {
     const courseId = req.params.id;
-    const { courseid, coursename, description, sections, references, price, imgUrl, videoUrl } = req.body;
+    const updateCourseData = req.body;
 
-    // Check for required fields
-    if (!courseid || !coursename || !description || !sections || !references || !price || !imgUrl || !videoUrl) {
-      res.status(400);
-      return next(new Error("courseid, coursename, description, sections, references, price, imgUrl & videoUrl fields are required"));
-    }
-
-    const updatedVideo = await Course.findOneAndUpdate(
-      { courseid: courseId },
-      {
-        courseid,
-        coursename,
-        description,
-        sections,
-        references,
-        price,
-        imgUrl,
-        videoUrl,
-      },
-      { new: true, runValidators: true } // Return the updated document and run validators
-    );
-
-    if (!updatedVideo) {
+    const video = await courseService.updateCourse(courseId, updateCourseData);
+    if (!video) {
       res.status(404);
       return next(new Error("Course not found"));
     }
 
     res.status(200).json({
       success: true,
-      video: updatedVideo,
+      video: video,
     });
   } catch (error) {
     console.log(error);
@@ -119,13 +86,12 @@ export const updateCourseById = async (req, res, next) => {
   }
 };
 
-
 // Delete one course by ID
 export const deleteCourseById = async (req, res, next) => {
   try {
     const courseId = req.params.id;
 
-    const video = await Course.findOneAndRemove({ courseid: courseId });
+    const video = await courseService.deleteCourse(courseId);
 
     if (!video) {
       res.status(404);
@@ -142,7 +108,3 @@ export const deleteCourseById = async (req, res, next) => {
     next(error);
   }
 };
-
-
-
-
