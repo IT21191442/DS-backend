@@ -14,18 +14,22 @@ const courseSchema = new mongoose.Schema(
 
     description: {
       type: String,
+      required: true,
     },
 
     sections: {
       type: String,
+      required: true,
     },
 
     references: {
       type: String,
+      required: true,
     },
 
     price: {
       type: String,
+      required: true,
     },
 
     imgUrl: {

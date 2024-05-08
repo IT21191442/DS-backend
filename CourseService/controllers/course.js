@@ -4,9 +4,9 @@ import Course from "../models/Course.js";
 export const createVideo = async (req, res, next) => {
   const { courseid, coursename, description, sections, references, price, imgUrl, videoUrl } = req.body;
 
-  if (!courseid || !coursename || !imgUrl || !videoUrl) {
+  if (!courseid || !coursename || !description || !sections || !references || !price || !imgUrl || !videoUrl) {
     res.status(400);
-    return next(new Error("courseid, coursename, imgUrl & videoUrl fields are required"));
+    return next(new Error("courseid, coursename, description, sections, references, price, imgUrl & videoUrl fields are required"));
   }
 
   try {
@@ -38,7 +38,7 @@ export const getAllCourses = async (req, res, next) => {
 
     if (videos.length === 0) {
       res.status(404);
-      return next(new Error("No videos found"));
+      return next(new Error("No courses found"));
     }
 
     res.status(200).json({
@@ -62,7 +62,7 @@ export const getCourseById = async (req, res, next) => {
 
     if (!video) {
       res.status(404);
-      return next(new Error("Video not found"));
+      return next(new Error("Course not found"));
     }
 
     res.status(200).json({
@@ -83,9 +83,9 @@ export const updateCourseById = async (req, res, next) => {
     const { courseid, coursename, description, sections, references, price, imgUrl, videoUrl } = req.body;
 
     // Check for required fields
-    if (!courseid || !coursename || !imgUrl || !videoUrl) {
+    if (!courseid || !coursename || !description || !sections || !references || !price || !imgUrl || !videoUrl) {
       res.status(400);
-      return next(new Error("courseid, coursename, imgUrl & videoUrl fields are required"));
+      return next(new Error("courseid, coursename, description, sections, references, price, imgUrl & videoUrl fields are required"));
     }
 
     const updatedVideo = await Course.findOneAndUpdate(
@@ -105,7 +105,7 @@ export const updateCourseById = async (req, res, next) => {
 
     if (!updatedVideo) {
       res.status(404);
-      return next(new Error("Video not found"));
+      return next(new Error("Course not found"));
     }
 
     res.status(200).json({
@@ -129,12 +129,12 @@ export const deleteCourseById = async (req, res, next) => {
 
     if (!video) {
       res.status(404);
-      return next(new Error("Video not found"));
+      return next(new Error("Course not found"));
     }
 
     res.status(200).json({
       success: true,
-      message: "Video deleted successfully",
+      message: "Course deleted successfully",
     });
   } catch (error) {
     console.log(error);
