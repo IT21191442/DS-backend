@@ -1,13 +1,13 @@
 import Enrollment from '../model/enrollment-model';
 
 class EnrollmentService {
-  static async enrollUser(userId: string, userName: string, courseId: string, courseName: string): Promise<any> {
+  static async enrollUser(userId: string,courseId: string): Promise<any> {
     try {
       const enrollment = new Enrollment({
         userId,
-        userName,
+        // userName,
         courseId,
-        courseName,
+        // courseName,
       });
       const savedEnrollment = await enrollment.save();
       return savedEnrollment;

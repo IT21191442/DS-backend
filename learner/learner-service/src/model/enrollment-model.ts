@@ -3,9 +3,9 @@ import mongoose, { Document, Schema } from 'mongoose';
 
 interface IEnrollment extends Document {
   userId: mongoose.Types.ObjectId;
-  userName: string;
+  //userName: string;
   courseId: mongoose.Types.ObjectId;
-  courseName: string;
+  //courseName: string;
 }
 
 const EnrollmentSchema = new Schema({
@@ -14,19 +14,19 @@ const EnrollmentSchema = new Schema({
     ref: 'User',
     required: true,
   },
-  userName: {
-    type: String,
-    required: true,
-  },
+  // userName: {
+  //   type: String,
+  //   required: true,
+  // },
   courseId: {
     type: Schema.Types.ObjectId,
     ref: 'Course',
     required: true,
   },
-  courseName: {
-    type: String,
-    required: true,
-  },
+  // courseName: {
+  //   type: String,
+  //   required: true,
+  // },
 });
 
 const Enrollment = mongoose.model<IEnrollment>('Enrollment', EnrollmentSchema);
