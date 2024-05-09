@@ -5,14 +5,14 @@ import EnrollmentService from "../services/enrollment-service";
 
 const CreateEnrollment = async (req: Request, res: Response) => {
   try {
-    const { userId, userName, courseId, courseName } = req.body;
-    console.log(userName+"gfhgj")
+    const { userId, courseId} = req.body;
+    console.log(userId+"gfhgj")
 
     const enrollment = await EnrollmentService.enrollUser(
       userId,
-      userName,
+      // userName,
       courseId,
-      courseName
+      // courseName
     );
     CustomResponse(
       res,
