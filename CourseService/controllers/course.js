@@ -63,7 +63,6 @@ export const getCourseById = async (req, res, next) => {
   }
 };
 
-// Update one course by ID
 export const updateCourseById = async (req, res, next) => {
   try {
     const courseId = req.params.id;
@@ -77,6 +76,7 @@ export const updateCourseById = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
+      message: "Course updated successfully",
       video: video,
     });
   } catch (error) {
